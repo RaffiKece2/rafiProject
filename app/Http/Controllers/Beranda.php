@@ -22,7 +22,6 @@ class Beranda extends Controller
         $user = User::find($id);
         $folders = $user->folders()->whereNull('parent_id')->get();
         $files = $user->galleries()->get();
-        $all_folder = $user->folders()->get();
 
         $cari_file = Gallery::where('user_id',$id)->sum('ukuran');
 
@@ -61,7 +60,8 @@ class Beranda extends Controller
             $pesan = $cari_file . "B";
         }
 
-        
+
+
 
 
         $pesan2 = round($user->storage_total / $gigabite,2) . " GB";
@@ -76,7 +76,7 @@ class Beranda extends Controller
 
 
 
-        return view('beranda', compact('user', 'folders', 'files','angka','angka2'));
+        return view('beranda', compact('user', 'folders', 'files','angka','angka2','hitung_folder'));
     }
     public function upload(Request $upload)
     {
@@ -174,10 +174,22 @@ class Beranda extends Controller
 
         $strip_andalan = str_replace(' ','_',$folderBaru->nama);
 
+
+        $ambil_folder = Storage::allFiles('data_user/data_user/' . auth()->id());
+
+        $total_ukuran_folder = 0;
+
+        foreach ($ambil_folder as $folder_size) {
+            $total_ukuran_folder += Storage::size($folder_size);
+        }
+
+
+
         $folder_kedua =  Folder:: create([
             'nama_folder' => $strip_andalan,
             'user_id' => auth()->id(),
-            'parent_id' => $folderBaru->input('parent_id')
+            'parent_id' => $folderBaru->input('parent_id'),
+            'ukuran_folder' => 0
 
         ]);
 
@@ -240,10 +252,13 @@ class Beranda extends Controller
 
         }else {
             $folders = $user->folders()->whereNull('parent_id')->get();
-            $files = $user->galleries();
+            $files = $user->galleries()->get();
         }
+
+        $angka = $files->count();
+        $hitung_folder = $folders->count();
      
-        return view('beranda',compact('user','folders','files'));
+        return view('beranda',compact('user','folders','files','angka','hitung_folder'));
         
     }
 
@@ -319,7 +334,13 @@ class Beranda extends Controller
 
             ]);
 
+
+        
+
             $folder_utama = Folder::find($upload_subfolder->input('folder_id'));
+
+            $folder_utama->ukuran_folder += $ukuran;
+         
 
             $parent_id = $folder_utama->parent_id;
             $akun = auth()->id();
@@ -519,7 +540,7 @@ class Beranda extends Controller
 
         $status_rename = 'File berhasil direname!';  
 
-        return view('beranda',compact(var_name: 'status_rename'));
+        return redirect()->back()->with('status_rename',$status_rename);
 
     }
 
@@ -701,7 +722,7 @@ class Beranda extends Controller
     {
         $file = Gallery::find($id);
 
-        $tempat = storage_path('app/data_user/data_user/' . auth()->id() . '/' . $file->file);
+        $tempat = storage_path('app/data_user/data_user/' . auth()->id() . '/' . $file->nama_tampilan);
 
         if ($file->izin == 0)  {
             abort(403, 'Maaf anda tidak memiliki akses');

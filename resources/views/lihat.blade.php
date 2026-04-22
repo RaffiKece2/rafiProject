@@ -9,7 +9,7 @@
     <form action="/beranda/{{ auth()->id() }}">
         <button>Beranda</button>
     </form>
-    <h1>{{ $file->file }}</h1>
+    <h1>{{ $file->nama_tampilan }}</h1>
 
     <p>{!!   nl2br(e($teks)) !!}</p>
     

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('folders', function (Blueprint $table) {
-            $table->unsignedBigInteger("ukuran_folder")
+        Schema::table('folders', function (Blueprint $table): void {
+            $table->unsignedBigInteger("ukuran_folder")->default(0);
             //
         });
     }
@@ -23,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('folders', function (Blueprint $table) {
+            $table->dropColumn('ukuran_folder');
             //
         });
     }

@@ -44,9 +44,21 @@
         <main class="flex-1 p-6 md:p-8">
             <div class="flex justify-between items-end mb-8">
                 <p>Storage Digunakan: {{ $user->storage_use }} / {{ $user->storage_total }}</p>
+
+                <a href="/tempat_sampah/{{ auth()->id() }}">
+                    <label class="cursor-pointer bg-red-600 text-white px-5 py-1.5 px-2.4 rounded-xl text-sm font-semibold hover:bg-red-850 hover:shadow-lg hover:shadow-blue-200 transition-all active:scale-95 flex items-center gap-2">
+                        <span>Tempat Sampah</span>
+                    </label>
+                </a>
+                
                 <div>
                     <h2 class="text-2xl font-bold text-gray-900">Semua File</h2>
                     <p class="text-gray-500 text-sm">Total {{ $angka }} file tersedia</p>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Semua Folder</h2>
+                    <p class="text-gray-500 text-sm">Total {{ $hitung_folder }} folder tersedia</p>
                 </div>
 
 
@@ -67,6 +79,7 @@
                         <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <a href="/download/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-blue-100 text-blue-600 transition">⬇️</a>
                             <a href="/hapus/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-red-100 text-red-600 transition">🗑️</a>
+                            <a href="/rename_file/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-red-100 text-red-600 transition">✏️</a>
                         </div>
                     </div>
                     <a href="/open_file/{{ $hasil_file->id }}" class="font-semibold text-gray-800 block truncate mb-1 hover:text-blue-600 transition">
@@ -111,7 +124,9 @@
                                 <a href="/folder_open/{{ $newFolder->id }}" class="text-sm font-semibold text-gray-700 truncate hover:text-blue-600 block">
                                     {{ $newFolder->nama_folder }}
                                 </a>
+                       
                                 <p class="text-[10px] text-gray-400">{{ $newFolder->created_at->format('d/m/y') }}</p>
+
                             </div>
                         </div>
                         <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
