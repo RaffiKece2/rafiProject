@@ -22,5 +22,9 @@
 <h2>Upload File</h2>
 <img width="670" height="356" alt="Screenshot 2026-04-22 102345" src="https://github.com/user-attachments/assets/05c597d6-7652-4757-8a96-0dc293a184ad" />
 
+<h2>Delete File</h2>
+<img width="692" height="461" alt="Screenshot 2026-04-22 102740" src="https://github.com/user-attachments/assets/6192aff8-8768-418a-829e-85869d6890c3" />
+
+
 
 
