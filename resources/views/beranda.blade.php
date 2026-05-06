@@ -80,15 +80,18 @@
                             <a href="/download/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-blue-100 text-blue-600 transition">⬇️</a>
                             <a href="/hapus/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-red-100 text-red-600 transition">🗑️</a>
                             <a href="/rename_file/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-red-100 text-red-600 transition">✏️</a>
+                            <a href="/izin_file/{{ $hasil_file->id }}" class="p-2 bg-gray-50 rounded-lg hover:bg-red-100 text-red-600 transition">👁️</a>
                         </div>
                     </div>
                     <a href="/open_file/{{ $hasil_file->id }}" class="font-semibold text-gray-800 block truncate mb-1 hover:text-blue-600 transition">
                         {{ $hasil_file->nama_tampilan }}
                     </a>
-                    <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <div class="flex items-center    gap-2 text-xs text-gray-400">
                         <span>{{ $hasil_file->ukuran_format }}</span>
                         <span>•</span>
                         <span>{{ $hasil_file->created_at->format('d M Y') }}</span>
+                        <span>•</span>
+                        <span>Tempat: {{ $hasil_file->path }}</span>
                     </div>
                 </div>
                 @endforeach

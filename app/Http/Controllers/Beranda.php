@@ -85,6 +85,8 @@ class Beranda extends Controller
 
         ]);
 
+            
+
         if ($upload->hasFile('upload')) {
             $file = $upload->file('upload');
 
@@ -94,15 +96,20 @@ class Beranda extends Controller
 
             $ukuran_file = $file->getSize();
 
-            
+            $path = $nama_file;
+
+
 
             Gallery:: create([
                 'user_id' => auth()->id(),
                 'file' => $nama_file,
                 'nama_tampilan' => $nama_file,
-                'ukuran' => $ukuran_file
+                'ukuran' => $ukuran_file,
+                'path' => $path
 
             ]);
+
+            
 
 
 
@@ -426,7 +433,7 @@ class Beranda extends Controller
         }
 
 
-        return back()->with('status', 'File '. $ubah->file . ' Menjadi ' . $pesan);
+        return back()->with('status', 'File '. $ubah->nama_tampilan . ' Menjadi ' . $pesan);
     }
 
     public function masuk_izin($id)
@@ -476,8 +483,30 @@ class Beranda extends Controller
     public function lihat_akun($id)
     {
         $lihat_akun = User::find($id);
+        $file = Gallery::where('user_id',$id)->sum('ukuran');
 
-        return view('akun',compact('lihat_akun'));
+        $megabite = 1024 * 1024;
+        $gigabite = 1024 * 1024 * 1024;
+
+        $ukuran_file = $file;
+
+        if ($ukuran_file >= $gigabite) {
+            $digunakan = round($ukuran_file / $gigabite,2) . "GB";
+        }else if ($ukuran_file >= $megabite) {
+            $digunakan = round($ukuran_file / $megabite,2) . "MB";
+        }else if ($ukuran_file >= 1024) {
+            $digunakan = round($ukuran_file / 1024,2) . "KB";
+
+        }else {
+            $digunakan = $ukuran_file . "B";
+        }
+
+        $total = round($lihat_akun->storage_total / $gigabite,2) . "GB";
+
+        $lihat_akun->storage_use = $digunakan;
+        $lihat_akun->storage_total = $total;
+
+        return view('akun',compact('digunakan','lihat_akun'));
     }
 
     public function logout(Request $keluar)
@@ -722,14 +751,13 @@ class Beranda extends Controller
     {
         $file = Gallery::find($id);
 
-        $tempat = storage_path('app/data_user/data_user/' . auth()->id() . '/' . $file->nama_tampilan);
 
         if ($file->izin == 0)  {
             abort(403, 'Maaf anda tidak memiliki akses');
 
         }
 
-
+        $tempat = storage_path('app/data_user/data_user/' . auth()->id() . '/' . $file->nama_tampilan);
 
 
         if (!file_exists($tempat)) {
@@ -737,12 +765,9 @@ class Beranda extends Controller
         }
 
         try {
-            $parse = new \Smalot\PdfParser\Parser();
-            $pdf = $parse->parseFile($tempat);
+            $tempat1 = storage_path('app/data_user/data_user/' . auth()->id() . '/' . $file->nama_tampilan);
 
-            $teks = $pdf->getText();
-
-            return view('lihat',compact('teks','file'));
+            return response()->file($tempat1);
 
         } catch (\Exception $e ) {
 

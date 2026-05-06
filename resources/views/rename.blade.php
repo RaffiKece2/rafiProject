@@ -21,14 +21,14 @@
 
         body {
             height: 100vh;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: linear-gradient(135deg, #141414, #5e5e5e);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 0, 0, 0.05);
             backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 40px;
@@ -78,7 +78,7 @@
 
         .btn-secondary {
             margin-top: 15px;
-            background: linear-gradient(135deg, #64748b, #334155);
+            background: linear-gradient(135deg, #000000, #000000);
         }
 
     </style>

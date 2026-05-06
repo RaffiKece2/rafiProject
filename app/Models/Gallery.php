@@ -16,6 +16,7 @@ class Gallery extends Model
         'izin',
         'nama_tampilan',
         'ukuran',
+        'path'
         
     ];
 
