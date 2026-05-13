@@ -73,7 +73,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach (auth()->user()->galleries as $index => $hasil_file)
-                <div class="animate-item bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 group" style="animation-delay: {{ $index * 0.05 }}s">
+                <div class="animate-item bg-white p-5 rounded-2xl border border-blue-500 shadow-sm hover:shadow-xl hover:border-gray-300 transition-all duration-300 group" style="animation-delay: {{ $index * 0.05 }}s">
                     <div class="flex justify-between items-start mb-4">
                         <div class="bg-blue-50 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform">📄</div>
                         <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -120,7 +120,7 @@
 
                 <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                     @foreach (auth()->user()->folders->where('parent_id', null) as $index => $newFolder)
-                    <div class="animate-item group flex items-center justify-between p-3 rounded-xl hover:bg-blue-50 transition-all duration-200 border border-transparent hover:border-blue-100" style="animation-delay: {{ $index * 0.05 }}s">
+                    <div class="animate-item group flex items-center justify-between p-3 rounded-xl hover:bg-blue-50 transition-all duration-200 border border-gray-200 hover:border-blue-300" style="animation-delay: {{ $index * 0.05 }}s">
                         <div class="flex items-center gap-3 overflow-hidden">
                             <span class="text-xl">📂</span>
                             <div class="truncate">
